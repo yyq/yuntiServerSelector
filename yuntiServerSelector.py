@@ -9,7 +9,7 @@ import time
 serverSuffix = "vpncute.com"
 serverCountry = ["jp", "us", "sg", "tw", "hk", "uk"]
 serverNumber = [4,6,2,1,3,1]
-protocolType = ["p1", "p2"]
+protocolType = ["p2", "p4"]
 
 address_n = 0
 final = []
@@ -34,7 +34,6 @@ class pingThread ( threading.Thread ):
     packet_loss_rate = re.findall(r'\b\d+\.\d+\b', resultarray[-3])[0]
     average_latency = re.findall(r'\b\d+\.\d+\b', resultarray[-2])[1]
     final.append([self.command, string.atof(packet_loss_rate), string.atof(average_latency)])
-
 
 # zero, current openned service
 command = "scutil --nc list | grep \"(Connected)\" | awk -F \'\"\' \'{print $2}\'"
@@ -77,11 +76,10 @@ time.sleep(1)
 bestServer = final[0][0].split(" ")[-1]
 # bestServer = "p1.tw1.vpncute.com"
 
-
 # first, concat the service name
 scountryNameDict = {"jp":"日本", "us":"美国", "sg":"新加坡", "hk":"香港", "uk":"英国", "tw":"台湾" }
 sCountryNumberDict = {"1":"1号", "2":"2号", "3":"3号", "4":"4号", "5":"5号", "6":"6号"}
-sTypeNumberDict = {"1":" PPTP", "2":" L2TP"}
+sTypeNumberDict = {"1":" L2TP", "2":" IKEv2"}
 serviceName = "云梯 "
 serviceName += scountryNameDict[bestServer[3:5]]
 serviceName += sCountryNumberDict[bestServer[5]]
@@ -100,7 +98,6 @@ try:
         print "The service " + serviceName + " is not available."
 except subprocess.CalledProcessError, e:
     print "The service " + serviceName + " is not available."
-
 
 # start the service
 subprocess.check_output("networksetup -connectpppoeservice \"" + serviceName + "\"",shell=True)
