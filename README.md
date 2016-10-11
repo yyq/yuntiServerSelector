@@ -3,5 +3,6 @@ If you use the vpn service from yunti and you are in the GreatWall, then you can
 This scripted is tested with my OS X system.
 
 # one more thing
-If you install your network service with yunti's helper.
-This script will stop your current vpn service, ping find the best server, and start the vpn connection for you.
+Install your network service with yunti's helper, it will install a few ( L2TP and IKEv2 for each yunti server ) VPN services.
+
+This script will stop your current connecting vpn service, ping find the best server, and start the best vpn connection for you.
